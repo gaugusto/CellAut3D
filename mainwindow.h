@@ -11,8 +11,6 @@ namespace Ui {
 class MainWindow;
 }
 
-extern bool isRunning;
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -39,6 +37,7 @@ private:
     JogoDaVida *jv;
     QTimer *timer;
     unsigned int iterationCounter;
+    bool isRunning;
 };
 
 #endif // MAINWINDOW_H

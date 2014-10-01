@@ -16,12 +16,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     glwidget.cpp \
     cube.cpp \
-    jogodavida.cpp
+    transitionrules.cpp \
+    jogodavida.cpp \
+    isingmodel.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
     cube.h \
-    jogodavida.h
+    transitionrules.h \
+    jogodavida.h \
+    isingmodel.h
 
 FORMS    += mainwindow.ui
 

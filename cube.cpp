@@ -2,7 +2,6 @@
 #include <GL/glut.h>
 
 #include "cube.h"
-#include "mainwindow.h"
 
 // cube ///////////////////////////////////////////////////////////////////////
 //    v6----- v5
@@ -87,9 +86,6 @@ Cube::Cube()
 
 void Cube::drawCube()
 {
-    if (isRunning)
-        return;
-
     // enable and specify pointers to vertex arrays
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
