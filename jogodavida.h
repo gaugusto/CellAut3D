@@ -1,9 +1,9 @@
 #ifndef JOGODAVIDA_H
 #define JOGODAVIDA_H
 
-#include "transitionrules.h"
+#include "neighbors.h"
 
-class JogoDaVida : public TransitionRules
+class JogoDaVida : public Neighbors
 {
     Q_OBJECT
 public:

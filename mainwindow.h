@@ -5,7 +5,8 @@
 #include <QTimer>
 
 #include "glwidget.h"
-#include "jogodavida.h"
+
+enum TR {jogo_da_vida, flocos_de_neve};
 
 namespace Ui {
 class MainWindow;
@@ -28,16 +29,27 @@ public slots:
     void spinColsChanged(int value);
     void spinSlicesChanged(int value);
 
-    void jvIterated();
+    void cbOnlyCubesHitedChanged(bool value);
+
+    void chooseRTChanged(int index);
+
+    void gridIterated();
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     GLWidget *createGLWidget(int rows, int cols, int slices);
+    void startRunning();
+    void stopRunning();
     Ui::MainWindow *ui;
     GLWidget *glwidget;
-    JogoDaVida *jv;
     QTimer *timer;
     unsigned int iterationCounter;
     bool isRunning;
+    bool onlyCubesHited;
+
+    TR tr_implemented; // Regras de transição implementadas (enum)
 };
 
 #endif // MAINWINDOW_H

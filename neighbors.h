@@ -1,27 +1,28 @@
-#ifndef TRANSITIONRULES_H
-#define TRANSITIONRULES_H
+#ifndef NEIGHBORS_H
+#define NEIGHBORS_H
 
 #include <QObject>
 #include "cube.h"
 
-class TransitionRules : public QObject
+class Neighbors : public QObject
 {
     Q_OBJECT
 public:
-    explicit TransitionRules(QObject *parent = 0, int rows = 1, int cols = 1, int slices = 1);
+    explicit Neighbors(QObject *parent = 0, int rows = 1, int cols = 1, int slices = 1);
+
     void setCubeList(QList<Cube> list);
     QList<Cube> getCubeList();
     virtual void processRules();
 
 protected:
-    void tableJVtoCubeList();
+    void tabletoCubeList();
     void processNeighbors(int id);
     int countNeighbors;
     QList<Cube> cubeList;
-    QList<bool> tableJV;
+    QList<bool> table;
 
 public slots:
-    void clearTableJV();
+    void cleartable();
 
 signals:
     void iterated();
@@ -34,6 +35,7 @@ private:
     int tableCols;
     int tableSlices;
     int sliceSize;
+
 };
 
-#endif // TRANSITIONRULES_H
+#endif // NEIGHBORS_H

@@ -20,6 +20,7 @@ GLWidget::GLWidget(QWidget *parent, int rows, int cols, int slices) :
     cubeSlices = slices;
 
     hitId = -1;
+    setFocusPolicy(Qt::ClickFocus);
 }
 
 GLWidget::~GLWidget()
@@ -170,6 +171,11 @@ void GLWidget::wheelEvent(QWheelEvent* event)
 {
     cameraDistance -= (event->angleDelta().y()/4) * 0.2f;
 
+    //qDebug() << "x: " << event->x();
+    //qDebug() << "y: " << event->y();
+
+    lastPos = event->pos();
+
     updateGL();
 }
 
@@ -203,6 +209,7 @@ void GLWidget::initializeGL()
     glEnable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_CULL_FACE);
+    glShadeModel(GL_SMOOTH);
 
      // track material ambient and diffuse from surface color, call it before glEnable(GL_COLOR_MATERIAL)
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
@@ -213,8 +220,8 @@ void GLWidget::initializeGL()
     glClearDepth(1.0f);                         // 0 is near, 1 is far
     glDepthFunc(GL_LEQUAL);
 
-    initLights();
     initCubePositions();
+    initLights();
 }
 
 void GLWidget::paintGL()
@@ -224,7 +231,7 @@ void GLWidget::paintGL()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glTranslatef(0.0f, 0.0f, -cameraDistance);
+    glTranslatef(0, 0, -cameraDistance);
     glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
 
@@ -289,15 +296,15 @@ int GLWidget::selectCube(int mouseX, int mouseY)
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
-    glDisable(GL_BLEND);
-    glDisable(GL_LIGHTING);
+    //glDisable(GL_BLEND);
+    //glDisable(GL_LIGHTING);
     glShadeModel(GL_FLAT);
 
     // draw cubes
     drawCubes();
 
-    glEnable(GL_BLEND);
-    glEnable(GL_LIGHTING);
+    //glEnable(GL_BLEND);
+    //glEnable(GL_LIGHTING);
     glShadeModel(GL_SMOOTH);
 
     glMatrixMode(GL_PROJECTION);

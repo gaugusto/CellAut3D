@@ -1,15 +1,15 @@
 #include "jogodavida.h"
-#include "transitionrules.h"
+#include "neighbors.h"
 
 JogoDaVida::JogoDaVida(QObject *parent, int rows, int cols, int slices) :
-    TransitionRules(parent, rows, cols, slices)
+    Neighbors(parent, rows, cols, slices)
 {
 
 }
 
 void JogoDaVida::processRules()
 {
-    clearTableJV();
+    cleartable();
     countNeighbors = 0;
 
     for (int i = 0; i < cubeList.size(); ++i)
@@ -22,7 +22,7 @@ void JogoDaVida::processRules()
         // três células vizinhas vivas.
         if (!cubeList[i].isHited())
             if (countNeighbors == 3)
-                tableJV[i] = true;
+                table[i] = true;
 
         if (cubeList[i].isHited())
         {
@@ -30,23 +30,23 @@ void JogoDaVida::processRules()
             // Se uma célula tiver de duas a três células
             // vizinhas vivas, então ela sobrevive.
             if (countNeighbors == 2 || countNeighbors == 3) // 7 ou 6
-                tableJV[i] = true;
+                table[i] = true;
 
             // Morte:
             // Se existir uma ou nenhuma célula vizinha viva,
             // então ela morre por ter ficado sozinha.
             if (countNeighbors <= 1)
-                tableJV[i] = false;
+                table[i] = false;
 
             // Morte:
             // Se uma célula tiver quatro ou mais células vizinhas
             // vivas, então ela morre devido à superpopulação.
             if (countNeighbors >= 4)
-                tableJV[i] = false;
+                table[i] = false;
         }
     }
 
-    tableJVtoCubeList();
+    tabletoCubeList();
 
     emit iterated();
 }

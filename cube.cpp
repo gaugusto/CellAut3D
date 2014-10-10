@@ -88,8 +88,8 @@ void Cube::drawCube()
 {
     // enable and specify pointers to vertex arrays
     glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
 
     glNormalPointer(GL_FLOAT, 0, normals);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
@@ -117,8 +117,8 @@ void Cube::drawCube()
     glPopName();
     glPopMatrix();
 
-    glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);  // disable vertex arrays
+    glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
 }
 

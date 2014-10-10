@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Jogo da Vida 3D</string>
+   <string>CellAut3D</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -103,6 +103,20 @@
        </layout>
       </item>
       <item>
+       <widget class="QComboBox" name="cbxChooseRT">
+        <item>
+         <property name="text">
+          <string>Jogo da Vida</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Flocos de Neve</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <spacer name="verticalSpacer">
@@ -118,6 +132,16 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="cbOnlyCubesHited">
+        <property name="text">
+         <string>Esconder cubos</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -167,6 +191,86 @@
  <resources/>
  <connections>
   <connection>
+   <sender>iterarButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>iterarButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>285</x>
+     <y>386</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>352</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBoxSlices</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>spinSlicesChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>107</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>122</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>zerarButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>zerarButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>339</x>
+     <y>308</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbOnlyCubesHited</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cbOnlyCubesHitedChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>50</x>
+     <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>85</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBoxRows</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>spinRowsChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>479</x>
+     <y>29</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>272</x>
+     <y>43</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>quitButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -182,5 +286,63 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>spinBoxCols</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>spinColsChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>378</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>288</x>
+     <y>90</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnPlay</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>playButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>202</x>
+     <y>350</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
+     <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbxChooseRT</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chooseRTChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>357</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>187</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>spinRowsChanged(int)</slot>
+  <slot>spinColsChanged(int)</slot>
+  <slot>spinSlicesChanged(int)</slot>
+  <slot>iterarButtonClicked()</slot>
+  <slot>zerarButtonClicked()</slot>
+  <slot>playButtonClicked()</slot>
+  <slot>chooseRTChanged(int)</slot>
+  <slot>cbOnlyCubesHitedChanged(bool)</slot>
+ </slots>
 </ui>

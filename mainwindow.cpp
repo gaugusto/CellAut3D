@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "jogodavida.h"
+#include "flocosneve.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -11,25 +14,13 @@ MainWindow::MainWindow(QWidget *parent) :
                               ui->spinBoxCols->value(),
                               ui->spinBoxSlices->value());
 
+    tr_implemented = jogo_da_vida;
     iterationCounter = 0;
     isRunning = false;
+    onlyCubesHited = true;
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this,
             SLOT(iterarButtonClicked()));
-
-    connect(ui->spinBoxRows, SIGNAL(valueChanged(int)),
-            this, SLOT(spinRowsChanged(int)));
-    connect(ui->spinBoxCols, SIGNAL(valueChanged(int)),
-            this, SLOT(spinColsChanged(int)));
-    connect(ui->spinBoxSlices, SIGNAL(valueChanged(int)),
-            this, SLOT(spinSlicesChanged(int)));
-
-    connect(ui->iterarButton, SIGNAL(clicked()),
-            this, SLOT(iterarButtonClicked()));
-    connect(ui->zerarButton, SIGNAL(clicked()),
-            this, SLOT(zerarButtonClicked()));
-    connect(ui->btnPlay, SIGNAL(clicked()),
-            this, SLOT(playButtonClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -39,18 +30,36 @@ MainWindow::~MainWindow()
 
 void MainWindow::iterarButtonClicked()
 {
-    jv = new JogoDaVida(this,
-                        glwidget->getCubeRows(),
-                        glwidget->getCubeCols(),
-                        glwidget->getCubeSlices());
+    if (tr_implemented == jogo_da_vida)
+    {
+        JogoDaVida *jv = new JogoDaVida(this,
+                                        glwidget->getCubeRows(),
+                                        glwidget->getCubeCols(),
+                                        glwidget->getCubeSlices());
 
-    connect(jv, SIGNAL(iterated()), this,
-            SLOT(jvIterated()));
+        connect(jv, SIGNAL(iterated()), this,
+                SLOT(gridIterated()));
 
-    jv->setCubeList(glwidget->getCubeList());
-    jv->processRules();
-    glwidget->setCubeList(jv->getCubeList());
-    glwidget->drawOnlyCubesHiteds = true;
+        jv->setCubeList(glwidget->getCubeList());
+        jv->processRules();
+        glwidget->setCubeList(jv->getCubeList());
+    }
+
+    if (tr_implemented == flocos_de_neve)
+    {
+        FlocosNeve *fn = new FlocosNeve(this,
+                            glwidget->getCubeRows(),
+                            glwidget->getCubeCols(),
+                            glwidget->getCubeSlices());
+
+        connect(fn, SIGNAL(iterated()), this,
+                SLOT(gridIterated()));
+
+        fn->setCubeList(glwidget->getCubeList());
+        fn->processRules();
+        glwidget->setCubeList(fn->getCubeList());
+    }
+    glwidget->drawOnlyCubesHiteds = onlyCubesHited;
     glwidget->updateGL();
 }
 
@@ -68,21 +77,15 @@ void MainWindow::zerarButtonClicked()
 void MainWindow::playButtonClicked()
 {
     if (!isRunning)
-    {
-        timer->start(500);
-        ui->btnPlay->setText("&Parar!");
-    }
+        startRunning();
     else
-    {
-        timer->stop();
-        ui->btnPlay->setText("&Play ->");
-    }
-
-    isRunning = !isRunning;
+        stopRunning();
 }
 
 void MainWindow::spinRowsChanged(int value)
 {
+    stopRunning();
+
     delete glwidget;
     glwidget = createGLWidget(value,
                               ui->spinBoxCols->value(),
@@ -91,6 +94,8 @@ void MainWindow::spinRowsChanged(int value)
 
 void MainWindow::spinColsChanged(int value)
 {
+    stopRunning();
+
     delete glwidget;
     glwidget = createGLWidget(ui->spinBoxRows->value(),
                               value,
@@ -99,16 +104,49 @@ void MainWindow::spinColsChanged(int value)
 
 void MainWindow::spinSlicesChanged(int value)
 {
+    stopRunning();
+
     delete glwidget;
     glwidget = createGLWidget(ui->spinBoxRows->value(),
                               ui->spinBoxCols->value(),
                               value);
 }
 
-void MainWindow::jvIterated()
+void MainWindow::cbOnlyCubesHitedChanged(bool value)
+{
+    onlyCubesHited = value;
+}
+
+void MainWindow::chooseRTChanged(int index)
+{
+    switch(index)
+    {
+    case 0:
+        tr_implemented = jogo_da_vida;
+        break;
+    case 1:
+        tr_implemented = flocos_de_neve;
+        break;
+    default:
+        tr_implemented = jogo_da_vida;
+    }
+}
+
+void MainWindow::gridIterated()
 {
     ui->lblIteration->setText(tr("Iteração: %0").
                               arg(++iterationCounter));
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_F11)
+    {
+        if (!isFullScreen())
+            showFullScreen();
+        else if (isFullScreen())
+            showNormal();
+    }
 }
 
 GLWidget *MainWindow::createGLWidget(int rows, int cols, int slices)
@@ -126,3 +164,26 @@ GLWidget *MainWindow::createGLWidget(int rows, int cols, int slices)
     return glwidget;
 }
 
+void MainWindow::startRunning()
+{
+    if (isRunning)
+        return;
+
+    timer->start(500);
+    ui->btnPlay->setText("&Parar!");
+
+    isRunning = !isRunning;
+}
+
+void MainWindow::stopRunning()
+{
+    if (!isRunning)
+        return;
+
+    timer->stop();
+    ui->btnPlay->setText("&Play ->");
+
+    isRunning = !isRunning;
+
+    zerarButtonClicked();
+}
