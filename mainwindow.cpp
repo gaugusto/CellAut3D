@@ -3,6 +3,7 @@
 
 #include "jogodavida.h"
 #include "flocosneve.h"
+#include "testneighbors.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -59,6 +60,21 @@ void MainWindow::iterarButtonClicked()
         fn->processRules();
         glwidget->setCubeList(fn->getCubeList());
     }
+
+    if (tr_implemented == testar_vizinhos)
+    {
+        TestNeighbors *tn = new TestNeighbors(this,
+                                              glwidget->getCubeRows(),
+                                              glwidget->getCubeCols(),
+                                              glwidget->getCubeSlices());
+        connect(tn, SIGNAL(iterated()), this,
+                SLOT(gridIterated()));
+
+        tn->setCubeList(glwidget->getCubeList());
+        tn->processRules();
+        glwidget->setCubeList(tn->getCubeList());
+    }
+
     glwidget->drawOnlyCubesHiteds = onlyCubesHited;
     glwidget->updateGL();
 }
@@ -126,6 +142,9 @@ void MainWindow::chooseRTChanged(int index)
         break;
     case 1:
         tr_implemented = flocos_de_neve;
+        break;
+    case 2:
+        tr_implemented = testar_vizinhos;
         break;
     default:
         tr_implemented = jogo_da_vida;

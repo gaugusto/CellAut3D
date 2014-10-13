@@ -9,18 +9,17 @@ FlocosNeve::FlocosNeve(QObject *parent, int rows, int cols, int slices) :
 void FlocosNeve::processRules()
 {
     cleartable();
-    countNeighbors = 0;
 
     for (int i = 0; i < cubeList.size(); ++i)
     {
         // Identifica os vizinhos de determinada célula
         processNeighbors(i);
 
-        if (!cubeList[i].isHited() && countNeighbors == 3)
+        if (!cubeList[i].isHited() && countNeighborsHiteds == 3)
             table[i] = true;
     }
 
-    tabletoCubeList();
+    tableToCubeList();
 
     emit iterated();
 }

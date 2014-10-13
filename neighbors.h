@@ -2,6 +2,8 @@
 #define NEIGHBORS_H
 
 #include <QObject>
+#include <QDebug>
+
 #include "cube.h"
 
 class Neighbors : public QObject
@@ -15,10 +17,11 @@ public:
     virtual void processRules();
 
 protected:
-    void tabletoCubeList();
+    void tableToCubeList();
     void processNeighbors(int id);
-    int countNeighbors;
     QList<Cube> cubeList;
+    QList<Cube> neighborsList;
+    int countNeighborsHiteds;
     QList<bool> table;
 
 public slots:
@@ -35,6 +38,7 @@ private:
     int tableCols;
     int tableSlices;
     int sliceSize;
+    int tableSize;
 
 };
 

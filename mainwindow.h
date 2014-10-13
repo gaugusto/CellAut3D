@@ -6,7 +6,7 @@
 
 #include "glwidget.h"
 
-enum TR {jogo_da_vida, flocos_de_neve};
+enum TR {jogo_da_vida, flocos_de_neve, testar_vizinhos};
 
 namespace Ui {
 class MainWindow;

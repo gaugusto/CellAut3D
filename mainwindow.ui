@@ -114,6 +114,11 @@
           <string>Flocos de Neve</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Testar Vizinhos</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>

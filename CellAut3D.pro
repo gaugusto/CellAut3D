@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     cube.cpp \
     jogodavida.cpp \
     flocosneve.cpp \
-    neighbors.cpp
+    neighbors.cpp \
+    testneighbors.cpp
 
 HEADERS  += mainwindow.h \
     glwidget.h \
     cube.h \
     jogodavida.h \
     flocosneve.h \
-    neighbors.h
+    neighbors.h \
+    testneighbors.h
 
 FORMS    += mainwindow.ui
 
