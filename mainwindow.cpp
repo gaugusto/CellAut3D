@@ -18,10 +18,12 @@ MainWindow::MainWindow(QWidget *parent) :
     tr_implemented = jogo_da_vida;
     iterationCounter = 0;
     isRunning = false;
-    onlyCubesHited = true;
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this,
             SLOT(iterarButtonClicked()));
+
+    connect(ui->cbOnlyCubesHited, SIGNAL(clicked(bool)),
+            glwidget, SLOT(displayCubesNotHiteds(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -75,13 +77,11 @@ void MainWindow::iterarButtonClicked()
         glwidget->setCubeList(tn->getCubeList());
     }
 
-    glwidget->drawOnlyCubesHiteds = onlyCubesHited;
     glwidget->updateGL();
 }
 
 void MainWindow::zerarButtonClicked()
 {
-    glwidget->drawOnlyCubesHiteds = false;
     glwidget->clearCubesHited();
     ui->lblIteration->setText(tr("Iteração: %0").
                               arg(iterationCounter = 0));
@@ -126,11 +126,6 @@ void MainWindow::spinSlicesChanged(int value)
     glwidget = createGLWidget(ui->spinBoxRows->value(),
                               ui->spinBoxCols->value(),
                               value);
-}
-
-void MainWindow::cbOnlyCubesHitedChanged(bool value)
-{
-    onlyCubesHited = value;
 }
 
 void MainWindow::chooseRTChanged(int index)
@@ -203,6 +198,4 @@ void MainWindow::stopRunning()
     ui->btnPlay->setText("&Play ->");
 
     isRunning = !isRunning;
-
-    zerarButtonClicked();
 }

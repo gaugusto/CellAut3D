@@ -16,7 +16,6 @@ public:
     explicit GLWidget(QWidget *parent = 0, int rows = 1, int cols = 1, int slices = 1);
     ~GLWidget();
 
-    QSize minimumSizeHint() const;
     QSize sizeHint() const;
     void setCubeList(QList<Cube> cubo);
     QList<Cube> getCubeList();
@@ -25,13 +24,12 @@ public:
     int getCubeCols();
     int getCubeSlices();
 
-    bool drawOnlyCubesHiteds;
-
 public slots:
     void setXRotation(int angle);
     void setYRotation(int angle);
     void setZRotation(int angle);
     void clearCubesHited();
+    void displayCubesNotHiteds(bool value);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -39,6 +37,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void wheelEvent(QWheelEvent* event);
+    QSize minimumSizeHint() const;
 
     void initLights();
     void initializeGL();
@@ -51,6 +50,7 @@ private:
     int processHits(int hitCount, GLuint* buffer);
     void initCubePositions();
 
+    bool displayOnlyCubesHiteds;
     int cameraDistance;
     int xRot;
     int yRot;

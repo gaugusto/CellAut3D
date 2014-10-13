@@ -9,7 +9,6 @@
 GLWidget::GLWidget(QWidget *parent, int rows, int cols, int slices) :
     QGLWidget(parent)
 {
-    drawOnlyCubesHiteds = false;
     cameraDistance = 60.0f;
     xRot = 0;
     yRot = 0;
@@ -19,8 +18,10 @@ GLWidget::GLWidget(QWidget *parent, int rows, int cols, int slices) :
     cubeCols = cols;
     cubeSlices = slices;
 
+    displayOnlyCubesHiteds = false;
+
     hitId = -1;
-    setFocusPolicy(Qt::ClickFocus);
+    //setFocusPolicy(Qt::ClickFocus);
 }
 
 GLWidget::~GLWidget()
@@ -104,6 +105,12 @@ void GLWidget::clearCubesHited()
     updateGL();
 }
 
+void GLWidget::displayCubesNotHiteds(bool value)
+{
+    displayOnlyCubesHiteds = value;
+    updateGL();
+}
+
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
     lastPos = event->pos();
@@ -128,8 +135,6 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 
         updateGL();
     }
-
-    //qDebug() << cubeHitList->size();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -170,9 +175,6 @@ void GLWidget::keyPressEvent(QKeyEvent *event)
 void GLWidget::wheelEvent(QWheelEvent* event)
 {
     cameraDistance -= (event->angleDelta().y()/4) * 0.2f;
-
-    //qDebug() << "x: " << event->x();
-    //qDebug() << "y: " << event->y();
 
     lastPos = event->pos();
 
@@ -247,7 +249,7 @@ void GLWidget::resizeGL(int width, int height)
     // set perspective viewing frustum
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-1,1, -1,1, 1.0,10000.0);
+    glFrustum(-1,1, -1,1, 2.0,10000.0);
     //gluPerspective(FOV_Y,  (float)width / height, 1.0f, 10000.0f);
 }
 
@@ -257,7 +259,7 @@ void GLWidget::drawCubes()
     {
         cubeList[i].setCubeId(i);
 
-        if (drawOnlyCubesHiteds)
+        if (displayOnlyCubesHiteds)
         {
             if (cubeList[i].isHited())
                 cubeList[i].drawCube();
@@ -290,7 +292,7 @@ int GLWidget::selectCube(int mouseX, int mouseY)
     glLoadIdentity();
     gluPickMatrix(mouseX, viewport[3] - mouseY, 2, 2, viewport);
     //gluPerspective(FOV_Y,  (float)viewport[2] / viewport[3], 0.1f, 1000.0f);
-    glFrustum(-1,1, -1,1, 1.0,10000.0);
+    glFrustum(-1,1, -1,1, 2.0,10000.0);
 
     // view transform
     glMatrixMode(GL_MODELVIEW);

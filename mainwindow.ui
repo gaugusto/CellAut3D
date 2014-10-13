@@ -144,7 +144,7 @@
          <string>Esconder cubos</string>
         </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -244,22 +244,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>cbOnlyCubesHited</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>cbOnlyCubesHitedChanged(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>50</x>
-     <y>248</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>85</x>
-     <y>193</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>spinBoxRows</sender>
    <signal>valueChanged(int)</signal>
    <receiver>MainWindow</receiver>
@@ -348,6 +332,5 @@
   <slot>zerarButtonClicked()</slot>
   <slot>playButtonClicked()</slot>
   <slot>chooseRTChanged(int)</slot>
-  <slot>cbOnlyCubesHitedChanged(bool)</slot>
  </slots>
 </ui>

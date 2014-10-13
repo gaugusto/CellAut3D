@@ -29,8 +29,6 @@ public slots:
     void spinColsChanged(int value);
     void spinSlicesChanged(int value);
 
-    void cbOnlyCubesHitedChanged(bool value);
-
     void chooseRTChanged(int index);
 
     void gridIterated();
